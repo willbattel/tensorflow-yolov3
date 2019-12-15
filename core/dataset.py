@@ -78,17 +78,22 @@ class Dataset(object):
                     index = self.batch_count * self.batch_size + num
                     if index >= self.num_samples: index -= self.num_samples
                     annotation = self.annotations[index]
-                    image, bboxes = self.parse_annotation(annotation)
-                    label_sbbox, label_mbbox, label_lbbox, sbboxes, mbboxes, lbboxes = self.preprocess_true_boxes(bboxes)
+                    try:
+                        image, bboxes = self.parse_annotation(annotation)
+                        label_sbbox, label_mbbox, label_lbbox, sbboxes, mbboxes, lbboxes = self.preprocess_true_boxes(bboxes)
 
-                    batch_image[num, :, :, :] = image
-                    batch_label_sbbox[num, :, :, :, :] = label_sbbox
-                    batch_label_mbbox[num, :, :, :, :] = label_mbbox
-                    batch_label_lbbox[num, :, :, :, :] = label_lbbox
-                    batch_sbboxes[num, :, :] = sbboxes
-                    batch_mbboxes[num, :, :] = mbboxes
-                    batch_lbboxes[num, :, :] = lbboxes
-                    num += 1
+                        batch_image[num, :, :, :] = image
+                        batch_label_sbbox[num, :, :, :, :] = label_sbbox
+                        batch_label_mbbox[num, :, :, :, :] = label_mbbox
+                        batch_label_lbbox[num, :, :, :, :] = label_lbbox
+                        batch_sbboxes[num, :, :] = sbboxes
+                        batch_mbboxes[num, :, :] = mbboxes
+                        batch_lbboxes[num, :, :] = lbboxes
+                        num += 1
+                    except KeyError as e:
+                        print(str(e))
+                        num += 1
+                        continue
                 self.batch_count += 1
                 return batch_image, batch_label_sbbox, batch_label_mbbox, batch_label_lbbox, \
                        batch_sbboxes, batch_mbboxes, batch_lbboxes
