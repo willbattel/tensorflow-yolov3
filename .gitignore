@@ -16,3 +16,23 @@ bin-release/
 # Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
 # should NOT be excluded as they contain compiler settings and other important
 # information for Eclipse / Flash Builder.
+
+# pycache
+*.pyc
+
+# VS Code
+.vscode/
+
+# macOS
+*.DS_Store
+
+# virtualenv
+env/
+
+# datasets
+data/datasets/
+data/voc/
+data/coco/
+
+# data events
+*.local
